@@ -27,7 +27,7 @@ module CPU(
                ALU_XOR = 3'b110,
                ALU_NOT = 3'b111;
 
-    // Main CPU operation
+    ///////// Main CPU operation ////////////
     always @(posedge clk or posedge rst) begin
         if (rst) begin
             PC <= 0;
@@ -89,21 +89,21 @@ module CPU(
                         PC <= instruction[8:0]; // 9-bit address
                 end
                 4'b1101: begin // CALL
-                    registers[7] <= PC; // Push PC onto stack
+                    registers[7] <= PC; 
                     SP <= SP - 1;
-                    PC <= instruction[14:0]; // Jump to address
+                    PC <= instruction[14:0]; 
                 end
-                4'b1110: begin // RET
-                    PC <= registers[SP]; // Pop from stack
+                4'b1110: begin 
+                    PC <= registers[SP]; 
                     SP <= SP + 1;
                 end
-                4'b1111: begin // Memory Access
-                    if (instruction[14:12] == 3'b000) begin // LD
-                        registers[instruction[11:9]] <= data_in; // Load data into register
-                    end else if (instruction[14:12] == 3'b001) begin // ST
-                        data_out <= registers[instruction[11:9]]; // Store data from register
-                        address <= instruction[8:0]; // Address to store
-                        mem_write <= 1; // Enable memory write
+                4'b1111: begin 
+                    if (instruction[14:12] == 3'b000) begin 
+                        registers[instruction[11:9]] <= data_in; 
+                    end else if (instruction[14:12] == 3'b001) begin 
+                        data_out <= registers[instruction[11:9]]; 
+                        address <= instruction[8:0]; 
+                        mem_write <= 1; 
                     end
                 end
                 default: begin
